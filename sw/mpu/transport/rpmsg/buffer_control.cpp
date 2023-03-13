@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <errno.h>
 #include <sys/ioctl.h>
 #include <sys/mman.h>
 #include <sys/eventfd.h>
@@ -22,7 +23,7 @@ shared_buffer::shared_buffer(size_t sz, int fd)
    :  capacity(sz)
 {
    data = mmap(0, sz, PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0);
-   RELAY_LOG_TRACE(skrm::p7_modules::system, "Mmap %d bytes into 0x%X", sz, data)
+   RELAY_LOG_TRACE(skrm::p7_modules::system, "Mmap %d bytes into 0x%p", sz, data)
    if (data == MAP_FAILED)
       RELAY_LOG_ERROR(skrm::p7_modules::system, "Mmap failed: %s", std::strerror(errno))
 }
@@ -32,7 +33,7 @@ shared_buffer::~shared_buffer()
    if (data != nullptr && capacity != 0 && munmap(data, capacity) < 0)  {
       RELAY_LOG_ERROR(skrm::p7_modules::system, "Munmap failed: %s", std::strerror(errno))
    }
-   RELAY_LOG_TRACE(skrm::p7_modules::system, "Munmap %d bytes from 0x%X", capacity, data)
+   RELAY_LOG_TRACE(skrm::p7_modules::system, "Munmap %d bytes from 0x%p", capacity, data)
 }
 
 int driver_event::event_count = 0;
