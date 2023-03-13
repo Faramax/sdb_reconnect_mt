@@ -1,6 +1,7 @@
 #include <iostream>
 #include <atomic>
 #include <thread>
+#include <cstring>
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -90,26 +91,26 @@ int main()
          std::this_thread::sleep_for(timeout);
 
          {
-            std::cout << "receiver close... ";
+            std::cout << "receiver close... " << std::flush;
             RELAY_LOG_TRACE(skrm::p7_modules::system, "receiver close...")
             sdb_close();
-            std::cout << "done.\n" << std::endl;
+            std::cout << "done.\n" << std::endl << std::flush;
             RELAY_LOG_TRACE(skrm::p7_modules::system, "receiver close finished")
          }
 
          std::this_thread::sleep_for(timeout);
 
          {
-            std::cout << "receiver.open... ";
+            std::cout << "receiver.open... " << std::flush;
             RELAY_LOG_TRACE(skrm::p7_modules::system, "receiver open...")
             sdb_open();
-            std::cout << "done. N = " << n++ << std::endl;
+            std::cout << "done. N = " << n++ << std::endl << std::flush;
             RELAY_LOG_TRACE(skrm::p7_modules::system, "receiver open finished")
          }
       }
    }
    catch(const std::exception &error) {
-      std::cout << error.what() << std::endl;
+      std::cout << error.what() << std::endl << std::flush;
       return EXIT_FAILURE;
    }
    return 0;
