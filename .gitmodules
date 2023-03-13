@@ -1,0 +1,6 @@
+[submodule "arm-tools/STM32CubeMP1"]
+	path = arm-tools/STM32CubeMP1
+	url = git@github.com:Faramax/STM32CubeMP1.git
+[submodule "arm-tools/stm32-cmake"]
+	path = arm-tools/stm32-cmake
+	url = git@github.com:Faramax/stm32-cmake.git

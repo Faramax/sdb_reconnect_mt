@@ -1,3 +1,14 @@
+# Qt cache
+CMakeLists.txt.user
+CMakeLists.txt.user.*
+*.autosave
+*.user
+
+revision.h
+
+# JetBrains stuff
+.idea
+
 # Prerequisites
 *.d
 
@@ -30,3 +41,19 @@
 *.exe
 *.out
 *.app
+
+# All temperary files
+*~
+/.project
+*.orig
+
+# Extracted arm toolchain 
+arm-tools/gcc
+
+# uP7 generated files
+uP7IDs.h
+uP7preprocessed.h
+*.up7
+
+# CLion default build directory
+build
