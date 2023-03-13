@@ -65,6 +65,7 @@ target_link_libraries(
    HAL::STM32::MP1::IPCC
 )
 target_compile_options(openamp INTERFACE -Wno-unused-parameter -Wno-empty-body -Wno-error -Wno-format)
+target_compile_definitions(openamp INTERFACE __STDC_NO_ATOMICS__)
 
 
 add_library(cpp_amp INTERFACE IMPORTED GLOBAL)
