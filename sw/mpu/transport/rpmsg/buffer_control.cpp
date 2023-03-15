@@ -64,6 +64,9 @@ driver_event::driver_event(int fd, pollfd &request)
 
 driver_event::~driver_event()
 {
+   if(poll_request.fd < 0)
+      return;
+
    int const ec = close(poll_request.fd);
    if (ec < 0)
       RELAY_LOG_ERROR(skrm::p7_modules::system, "Close eventfd #%d failed: %s", poll_request.fd, std::strerror(errno))

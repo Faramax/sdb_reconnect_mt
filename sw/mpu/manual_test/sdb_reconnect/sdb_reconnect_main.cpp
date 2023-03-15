@@ -49,12 +49,15 @@ void sdb_init()
 {
    buffers_.clear();
    events_.clear();
+   buffers_.reserve(number_of_buffers);
+   events_.reserve(number_of_buffers);
+
    for (size_t n = 0; n < number_of_buffers; n++)
    {
-      events_.emplace_back(pollfd{});
-      buffers_.emplace_back(std::make_unique<buffer_control>(buffer_size, device_fd, events_.back()));
+      auto& event = events_.emplace_back(pollfd{});
+      buffers_.emplace_back(std::make_unique<buffer_control>(buffer_size, device_fd, event));
    }
-   RELAY_LOG_INFO(skrm::p7_modules::system, "%s inited", device_path.c_str())
+   RELAY_LOG_INFO(skrm::p7_modules::system, "%s inited", device_path.c_str());
 }
 
 void sdb_close()
@@ -88,15 +91,6 @@ int main()
    try {
       while (task_enabled)
       {
-         std::this_thread::sleep_for(timeout);
-
-         {
-            std::cout << "receiver close... " << std::flush;
-            RELAY_LOG_TRACE(skrm::p7_modules::system, "receiver close...")
-            sdb_close();
-            std::cout << "done.\n" << std::endl << std::flush;
-            RELAY_LOG_TRACE(skrm::p7_modules::system, "receiver close finished")
-         }
 
          std::this_thread::sleep_for(timeout);
 
@@ -106,6 +100,16 @@ int main()
             sdb_open();
             std::cout << "done. N = " << n++ << std::endl << std::flush;
             RELAY_LOG_TRACE(skrm::p7_modules::system, "receiver open finished")
+         }
+
+         std::this_thread::sleep_for(timeout);
+
+         {
+            std::cout << "receiver close... " << std::flush;
+            RELAY_LOG_TRACE(skrm::p7_modules::system, "receiver close...")
+            sdb_close();
+            std::cout << "done.\n" << std::endl << std::flush;
+            RELAY_LOG_TRACE(skrm::p7_modules::system, "receiver close finished")
          }
       }
    }
