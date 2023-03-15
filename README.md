@@ -1,3 +1,8 @@
+# The test demonstranes sdb freezing
+
+The test restarts the sdb connection on the STM32MP1 from a7 side. After 5 
+restarts it freezes.
+
 1. Clone the repository
 ```
 git clone git@github.com:Faramax/sdb_reconnect_mt.git
